@@ -1,12 +1,12 @@
 package main
 
 import (
-  "scgame/server"
+	"scgame/server"
 )
 
 func main() {
-  s := server.New(":2000")
-  defer s.Close()
+	s := server.New(":2000")
+	defer s.Close()
 
-  s.Handle()
+	s.Handle()
 }

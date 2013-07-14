@@ -1,27 +1,27 @@
 package server
 
 import (
-  "io"
-  "log"
-  "net"
+	"io"
+	"log"
+	"net"
 )
 
 type Server struct {
-  listener net.Listener
+	listener net.Listener
 }
 
 func New(addr string) *Server {
-  l, err := net.Listen("tcp", addr)
+	l, err := net.Listen("tcp", addr)
 
-  if err != nil {
-    log.Fatal(err)
-  }
+	if err != nil {
+		log.Fatal(err)
+	}
 
-  return &Server{listener: l}
+	return &Server{listener: l}
 }
 
 func (s *Server) Close() {
-  s.listener.Close()
+	s.listener.Close()
 }
 
 func (s *Server) Handle() {
