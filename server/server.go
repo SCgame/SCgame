@@ -1,7 +1,8 @@
 package server
 
 import (
-	"io"
+	"bufio"
+	"fmt"
 	"log"
 	"net"
 )
@@ -33,7 +34,15 @@ func (s *Server) Handle() {
 		}
 
 		go func(c net.Conn) {
-			io.Copy(c, c)
+			for {
+				message, err := bufio.NewReader(c).ReadString('\n')
+				if err != nil {
+					c.Close()
+					return
+				}
+				fmt.Println(message)
+				fmt.Fprintf(c, message)
+			}
 		}(conn)
 	}
 }
