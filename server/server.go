@@ -5,10 +5,13 @@ import (
 	"fmt"
 	"log"
 	"net"
+	"time"
 )
 
+const timeout time.Duration = 5 * time.Second
+
 type Server struct {
-	listener net.Listener
+	listener *net.TCPListener
 }
 
 func New(addr string) *Server {
@@ -18,7 +21,7 @@ func New(addr string) *Server {
 		log.Fatal(err)
 	}
 
-	return &Server{listener: l}
+	return &Server{listener: l.(*net.TCPListener)}
 }
 
 func (s *Server) Close() {
@@ -27,16 +30,20 @@ func (s *Server) Close() {
 
 func (s *Server) Handle() {
 	for {
-		conn, err := s.listener.Accept()
+		var conn *net.TCPConn
+		conn, err := s.listener.AcceptTCP()
 
 		if err != nil {
 			log.Fatal(err)
 		}
 
-		go func(c net.Conn) {
+		go func(c *net.TCPConn) {
 			for {
+				c.SetReadDeadline(time.Now().Add(timeout))
+
 				message, err := bufio.NewReader(c).ReadString('\n')
 				if err != nil {
+					fmt.Println("Closing connection")
 					c.Close()
 					return
 				}

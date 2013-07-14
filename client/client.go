@@ -14,7 +14,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	counter := 0
+	var counter time.Duration = 0
 
 	for {
 		fmt.Printf("SEND Message %d\n", counter)
@@ -26,6 +26,6 @@ func main() {
 		fmt.Println(status)
 
 		counter++
-		time.Sleep(2 * 1e9) // 2 seconds
+		time.Sleep(counter * time.Second)
 	}
 }
