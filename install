@@ -1,0 +1,3 @@
+#!/bin/sh
+
+go install scgame/server scgame/serverctl scgame/client

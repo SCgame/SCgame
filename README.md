@@ -10,9 +10,8 @@ Installation
 
 ```
 git clone https://github.com/SCgame/SCgame.git $GOPATH/src/scgame
-go install scgame/server
-go install scgame/serverctl
-go install scgame/client
+cd $GOPATH/src/scgame
+./install
 ```
 
 Starting server
