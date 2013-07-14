@@ -10,3 +10,8 @@ Todo
 * Identify players (override old connections)
 * Close inactive connections
 
+Authors
+-------
+
+* Marcin Kostrzewa
+* [Grzegorz Świrski](http://swirski.name)

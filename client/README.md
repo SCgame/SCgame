@@ -13,4 +13,4 @@ Authors
 -------
 
 * Marcin Kostrzewa
-* Grzegorz Świrski
+* [Grzegorz Świrski](http://swirski.name)
