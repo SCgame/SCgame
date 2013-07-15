@@ -12,6 +12,7 @@ const timeout time.Duration = 5 * time.Second
 
 type Server struct {
 	listener *net.TCPListener
+	game     *Game
 }
 
 func New(addr string) *Server {
@@ -21,7 +22,7 @@ func New(addr string) *Server {
 		log.Fatal(err)
 	}
 
-	return &Server{listener: l.(*net.TCPListener)}
+	return &Server{listener: l.(*net.TCPListener), game: NewGame()}
 }
 
 func (s *Server) Close() {
@@ -47,8 +48,13 @@ func (s *Server) Handle() {
 					c.Close()
 					return
 				}
-				fmt.Println(message)
-				fmt.Fprintf(c, message)
+
+				req := NewRequest(message)
+				s.game.RequestChan <- req
+
+				response := (<-req.ResponseChan).Content
+				fmt.Println(response)
+				fmt.Fprintf(c, response)
 			}
 		}(conn)
 	}
