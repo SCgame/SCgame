@@ -35,7 +35,7 @@ func (s *Server) Handle() {
 			log.Fatal(err)
 		}
 
-		conn := NewConnection(s.game, c)
+		conn := NewConnection(s, s.game, c)
 		go conn.Handle()
 	}
 }

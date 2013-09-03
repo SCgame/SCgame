@@ -8,6 +8,7 @@ type Response struct {
 
 type Request struct {
 	Command      string
+	User         string
 	ResponseChan chan *Response
 }
 
@@ -15,8 +16,8 @@ type Game struct {
 	RequestChan chan *Request
 }
 
-func NewRequest(cmd string) *Request {
-	return &Request{Command: cmd, ResponseChan: make(chan *Response)}
+func NewRequest(user string, cmd string) *Request {
+	return &Request{User: user, Command: cmd, ResponseChan: make(chan *Response)}
 }
 
 func NewGame() *Game {
@@ -27,6 +28,6 @@ func NewGame() *Game {
 
 func (g *Game) receiveCommands() {
 	for req := range g.RequestChan {
-		req.ResponseChan <- &Response{fmt.Sprintf("RESPONSE: %s\n", req.Command)}
+		req.ResponseChan <- &Response{fmt.Sprintf("RESPONSE: %s", req.Command)}
 	}
 }

@@ -16,6 +16,13 @@ func main() {
 
 	var counter time.Duration = 0
 
+	fmt.Fprintf(conn, "LOGIN sognat\n")
+	status, err := bufio.NewReader(conn).ReadString('\n')
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(status)
+
 	for {
 		fmt.Printf("SEND Message %d\n", counter)
 		fmt.Fprintf(conn, "Message %d\n", counter)
