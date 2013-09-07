@@ -8,7 +8,7 @@ import (
 )
 
 const timeout time.Duration = 5 * time.Second
-const rate time.Duration = 1 * time.Second
+const rate time.Duration = 1000 * time.Nanosecond
 const maxConns int = 10
 
 type Server struct {

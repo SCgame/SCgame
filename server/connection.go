@@ -43,6 +43,7 @@ func (c *Connection) Handle() {
 			c.Close("ERROR 0")
 			return
 		}
+		message = strings.TrimSpace(message)
 		c.log(message)
 
 		req := NewRequest(c.Name, message)
@@ -62,8 +63,8 @@ func (c *Connection) read() (message string, err error) {
 }
 
 func (c *Connection) ok(message string) {
-	fmt.Printf("%p: OK %s\n", c, message)
-	fmt.Fprintf(c.tcpConn, "OK %s\n", message)
+	fmt.Printf("%p: %s\n", c, message)
+	fmt.Fprintf(c.tcpConn, "%s\n", message)
 }
 
 func (c *Connection) Close(errMessage string) {
