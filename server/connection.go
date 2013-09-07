@@ -12,6 +12,7 @@ type Connection struct {
 	server  *Server
 	game    *Game
 	tcpConn *net.TCPConn
+	limiter <-chan time.Time
 	Name    string
 }
 
@@ -19,7 +20,7 @@ func NewConnection(s *Server, g *Game, c *net.TCPConn) *Connection {
 	s.ConnMutex.Lock()
 	s.Connections += 1
 	s.ConnMutex.Unlock()
-	return &Connection{server: s, game: g, tcpConn: c}
+	return &Connection{server: s, game: g, tcpConn: c, limiter: time.Tick(rate)}
 }
 
 func (c *Connection) Handle() {
@@ -36,6 +37,7 @@ func (c *Connection) Handle() {
 	}
 
 	for {
+		<-c.limiter
 		message, err := c.read()
 		if err != nil {
 			c.Close("ERROR 0")

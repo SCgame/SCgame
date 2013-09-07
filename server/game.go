@@ -1,6 +1,9 @@
 package server
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 type Response struct {
 	Content string
@@ -28,6 +31,6 @@ func NewGame() *Game {
 
 func (g *Game) receiveCommands() {
 	for req := range g.RequestChan {
-		req.ResponseChan <- &Response{fmt.Sprintf("RESPONSE: %s", req.Command)}
+		req.ResponseChan <- &Response{fmt.Sprintf("RESPONSE: %s", strings.TrimSpace(req.Command))}
 	}
 }
